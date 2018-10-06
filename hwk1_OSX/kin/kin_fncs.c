@@ -12,7 +12,6 @@
 /* This function prints a given matrix to console */
 void PrintMatrix(double **matrix)
 {
-    
     // Check if the pointers are valid
     if((matrix == NULL)|| (matrix[0] == NULL))
     {
@@ -41,20 +40,6 @@ void MatrixCopying(double **matrixA, double **matrixB)
 {
     // Check if the pointers are valid
     if((matrixA == NULL) || (matrixB == NULL) || (matrixA[0] == NULL) || (matrixB[0] == NULL))
-    {
-        return;
-    }
-    
-    
-    // If the matrices are not 4 * 4, simply return
-    int numRowA = sizeof(matrixA) / sizeof(matrixA[0]);
-    int numRowB = sizeof(matrixB) / sizeof(matrixB[0]);
-    
-    int numColA = sizeof(matrixA[0]) / numRowA;
-    int numColB = sizeof(matrixB[0]) / numRowB;
-    
-    if((numRowA != MATRIX_DIMENSION) || (numRowB != MATRIX_DIMENSION) ||
-       (numColA != MATRIX_DIMENSION) || (numColB != MATRIX_DIMENSION))
     {
         return;
     }
@@ -130,23 +115,37 @@ fwd_kin(theta, x)
 double *theta;
 double x[3];
 {
+    printf("\n\n");
+    
     int i;
     
-    printf("\n\n");
-    double **matrix = (double **)malloc(MATRIX_DIMENSION * sizeof(double *));
+    double **matrixOne = (double **)malloc(MATRIX_DIMENSION * sizeof(double *));
+    double **matrixTwo = (double **)malloc(MATRIX_DIMENSION * sizeof(double *));
+    
     for(i = 0; i < MATRIX_DIMENSION; i++)
-        matrix[i] = (double *)calloc(MATRIX_DIMENSION, sizeof(double));
-    
-    PrintMatrix(matrix);
-        
-    for(i = 0; i <MATRIX_DIMENSION; i++)
     {
-        free(matrix[i]);
-        matrix[i] = NULL;
+        matrixOne[i] = (double *)calloc(MATRIX_DIMENSION, sizeof(double));
+        matrixTwo[i] = (double *)calloc(MATRIX_DIMENSION, sizeof(double));
     }
-    free(matrix);
-    matrix = NULL;
     
+    matrixOne[0][0] = 1.0;
+    MatrixCopying(matrixOne, matrixTwo);
+    PrintMatrix(matrixTwo);
+    
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+    {
+        free(matrixOne[i]);
+        free(matrixTwo[i]);
+        
+        matrixOne[i] = NULL;
+        matrixTwo[i] = NULL;
+    }
+    
+    free(matrixOne);
+    free(matrixTwo);
+    
+    matrixOne = NULL;
+    matrixTwo = NULL;
 }
 
 
