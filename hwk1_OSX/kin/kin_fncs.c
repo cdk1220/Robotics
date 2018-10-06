@@ -9,6 +9,32 @@
 #define MATRIX_DIMENSION 4
 #endif
 
+/* This function prints a given matrix to console */
+void PrintMatrix(double **matrix)
+{
+    
+    // Check if the pointers are valid
+    if((matrix == NULL)|| (matrix[0] == NULL))
+    {
+        return;
+    }
+    
+
+    // Do the printing
+    int i, j;
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+    {
+        for(j = 0; j < MATRIX_DIMENSION; j++)
+        {
+            printf("%lf ", matrix[i][j]);
+        }
+        printf("\n\n");
+    }
+    
+    return;
+}
+
+
 
 /* This function copy the values of a 4 * 4 matrix to another (A -> B) */
 void MatrixCopying(double **matrixA, double **matrixB)
@@ -104,6 +130,23 @@ fwd_kin(theta, x)
 double *theta;
 double x[3];
 {
+    int i;
+    
+    printf("\n\n");
+    double **matrix = (double **)malloc(MATRIX_DIMENSION * sizeof(double *));
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+        matrix[i] = (double *)calloc(MATRIX_DIMENSION, sizeof(double));
+    
+    PrintMatrix(matrix);
+        
+    for(i = 0; i <MATRIX_DIMENSION; i++)
+    {
+        free(matrix[i]);
+        matrix[i] = NULL;
+    }
+    free(matrix);
+    matrix = NULL;
+    
 }
 
 
