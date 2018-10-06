@@ -10,20 +10,6 @@
 #endif
 
 
-fwd_kin(theta, x)
-double *theta;
-double x[3];
-{
-}
-
-
-inv_kin(x, theta)
-double *x;
-double theta[6];
-{
-}
-
-
 /* This function copy the values of a 4 * 4 matrix to another (A -> B) */
 void MatrixCopying(double **matrixA, double **matrixB)
 {
@@ -57,8 +43,74 @@ void MatrixCopying(double **matrixA, double **matrixB)
             matrixB[i][j] = matrixA[i][j];
         }
     }
+    
+    return;
 }
 
 
+/* This function multiplies two 4 * 4 matrices, (B = A * B) */
+void MatrixMultiplication(double **matrixA, double **matrixB)
+{
+    // Check if the pointers are valid
+    if((matrixA == NULL) || (matrixB == NULL) || (matrixA[0] == NULL) || (matrixB[0] == NULL))
+    {
+        return;
+    }
+    
+    
+    // If the matrices are not 4 * 4, simply return
+    int numRowA = sizeof(matrixA) / sizeof(matrixA[0]);
+    int numRowB = sizeof(matrixB) / sizeof(matrixB[0]);
+    
+    int numColA = sizeof(matrixA[0]) / numRowA;
+    int numColB = sizeof(matrixB[0]) / numRowB;
+    
+    if((numRowA != MATRIX_DIMENSION) || (numRowB != MATRIX_DIMENSION) ||
+       (numColA != MATRIX_DIMENSION) || (numColB != MATRIX_DIMENSION))
+    {
+        return;
+    }
+    
+    
+    // Declare and intialize another 2D array to store matrixB since it will be storing the result of the multiplication
+    double matrixC[4][4] = {0.0};
+    
+    // Copy B into C
+    MatrixCopying(matrixB, matrixC);
+    
+    // Do the multiplication
+    int i, j, k;
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+    {
+        for(j = 0; j < MATRIX_DIMENSION; j++)
+        {
+            double addResult = 0;
+            for(k = 0; k < MATRIX_DIMENSION; k++)
+            {
+                double mulResult = matrixA[i][k] * matrixC[k][j];
+                addResult = addResult + mulResult;
+            }
+            
+            matrixB[i][j] = addResult;
+        }
+    }
+    
+    return;
+}
+
+
+
+fwd_kin(theta, x)
+double *theta;
+double x[3];
+{
+}
+
+
+inv_kin(x, theta)
+double *x;
+double theta[6];
+{
+}
 
 
