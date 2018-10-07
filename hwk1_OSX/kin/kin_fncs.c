@@ -18,7 +18,6 @@ void PrintMatrix(double **matrix)
         return;
     }
     
-
     // Do the printing
     int i, j;
     for(i = 0; i < MATRIX_DIMENSION; i++)
@@ -44,7 +43,6 @@ void MatrixCopying(double **matrixA, double **matrixB)
         return;
     }
     
-    
     // Do the copying
     int i, j;
     for(i = 0; i < MATRIX_DIMENSION; i++)
@@ -59,6 +57,7 @@ void MatrixCopying(double **matrixA, double **matrixB)
 }
 
 
+
 /* This function multiplies two 4 * 4 matrices, (B = A * B) */
 void MatrixMultiplication(double **matrixA, double **matrixB)
 {
@@ -68,29 +67,19 @@ void MatrixMultiplication(double **matrixA, double **matrixB)
         return;
     }
     
-    
-    // If the matrices are not 4 * 4, simply return
-    int numRowA = sizeof(matrixA) / sizeof(matrixA[0]);
-    int numRowB = sizeof(matrixB) / sizeof(matrixB[0]);
-    
-    int numColA = sizeof(matrixA[0]) / numRowA;
-    int numColB = sizeof(matrixB[0]) / numRowB;
-    
-    if((numRowA != MATRIX_DIMENSION) || (numRowB != MATRIX_DIMENSION) ||
-       (numColA != MATRIX_DIMENSION) || (numColB != MATRIX_DIMENSION))
-    {
-        return;
-    }
-    
-    
     // Declare and intialize another 2D array to store matrixB since it will be storing the result of the multiplication
-    double matrixC[4][4] = {0.0};
+    double **matrixC = (double **)malloc(MATRIX_DIMENSION * sizeof(double *));
+    int i;
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+    {
+        matrixC[i] = (double *)calloc(MATRIX_DIMENSION, sizeof(double));
+    }
     
     // Copy B into C
     MatrixCopying(matrixB, matrixC);
     
     // Do the multiplication
-    int i, j, k;
+    int j, k;
     for(i = 0; i < MATRIX_DIMENSION; i++)
     {
         for(j = 0; j < MATRIX_DIMENSION; j++)
@@ -105,6 +94,15 @@ void MatrixMultiplication(double **matrixA, double **matrixB)
             matrixB[i][j] = addResult;
         }
     }
+    
+    // Free up C
+    for(i = 0; i < MATRIX_DIMENSION; i++)
+    {
+        free(matrixC[i]);
+        matrixC[i] = NULL;
+    }
+    free(matrixC);
+    matrixC = NULL;
     
     return;
 }
@@ -129,7 +127,17 @@ double x[3];
     }
     
     matrixOne[0][0] = 1.0;
-    MatrixCopying(matrixOne, matrixTwo);
+    matrixOne[0][1] = 2.0;
+    matrixOne[1][0] = 3.0;
+    matrixOne[1][1] = 4.0;
+    
+    matrixTwo[0][0] = 5.0;
+    matrixTwo[0][1] = 6.0;
+    matrixTwo[1][0] = 7.0;
+    matrixTwo[1][1] = 8.0;
+    
+    MatrixMultiplication(matrixOne, matrixTwo);
+    
     PrintMatrix(matrixTwo);
     
     for(i = 0; i < MATRIX_DIMENSION; i++)
