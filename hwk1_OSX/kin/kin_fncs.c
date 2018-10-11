@@ -164,8 +164,7 @@ double x[3];
     matrixTwo[3][3] = 1.0;
 
     MatrixMultiplication(matrixOne, matrixTwo);
-    printf("Multiplying Dz(0.04x)Dx(0.15) * Ry(theta[3])\n");
-    PrintMatrix(matrixTwo);
+    
     
     // Multiplying Ry(theta[2]) * result_above
     matrixOne[0][0] = cos(theta[2]);;
@@ -186,8 +185,7 @@ double x[3];
     matrixOne[3][3] = 1.0;
     
     MatrixMultiplication(matrixOne, matrixTwo);
-    printf("Multiplying Ry(theta[2]) * result_above\n");
-    PrintMatrix(matrixTwo);
+    
     
     // Multiplying Dy(0.04)Dx(0.2) * result_above
     matrixOne[0][0] = 1.0;
@@ -208,8 +206,7 @@ double x[3];
     matrixOne[3][3] = 1.0;
     
     MatrixMultiplication(matrixOne, matrixTwo);
-    printf("Multiplying Dy(0.04)Dx(0.2) * result_above\n");
-    PrintMatrix(matrixTwo);
+    
     
     // Multiplying Ry(theta[1]) * result_above
     matrixOne[0][0] = cos(theta[1]);
@@ -230,8 +227,7 @@ double x[3];
     matrixOne[3][3] = 1.0;
     
     MatrixMultiplication(matrixOne, matrixTwo);
-    printf("Multiplying Ry(theta[1]) * result_above\n");
-    PrintMatrix(matrixTwo);
+
     
     // Multiplying Dx(0.2) * result_above
     matrixOne[0][0] = 1.0;
